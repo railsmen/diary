@@ -5,6 +5,16 @@ class ApplicationController < ActionController::Base
   def home
   end
 
+  def list_posts
+    text = params[:text]
+    posts  = @user.posts.collect{|qwe| qwe.entry_date if qwe.entry_text.downcase.include?(text)}
+    render :json => {:text => posts.compact}, :status => 200
+  end
+
+  def get_post
+    render :json => {:text => @user.posts.where("entry_date = ?",params[:date]).first.entry_text }, :status => 200
+  end  
+    
   def save_post
 	if @post
 		@post.entry_text = params[:entry_text]
@@ -25,7 +35,7 @@ class ApplicationController < ActionController::Base
   private
   def authenticate
   	@user = session[:user_id] = User.first
-    @user = session[:user_id] = nil
+    #@user = session[:user_id] = nil
   end
 
   def load_today_post

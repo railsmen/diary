@@ -9,8 +9,10 @@
 //
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
-//
+//= require jquery.min
+//= require jquery-ui-1.10.3.custom
 //= require_tree .
+
 var DATA_SAVE_FREQUENCY = 5000;
 var FLASH_HIDE_INTERVAL = 6000;
 var flash_hide_timer;
@@ -18,6 +20,9 @@ jQuery('document').ready(function(){
     associateLinks();
     triggerAutoSave();
     loginCheck();
+    jQuery(".datepicker").datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
 });
 
 function associateLinks () {
@@ -51,6 +56,27 @@ function associateSignLinks(){
         jQuery('.sign_ups').show();
         jQuery('.sign_ins').hide();
     });
+    jQuery('#old_entries_li').live('click',function(e){
+        jQuery('.part2').animate({width:'80%'}, 500);
+        jQuery('.part1').animate({width:'20%'}, 500);
+    });
+    jQuery('#hide').live('click',function(e){
+        jQuery('#date_pik').val("");
+        jQuery('.part2').animate({width:'100%'}, 500);
+        jQuery('.part1').animate({width:'0%'}, 500);
+    });
+      jQuery('.post_links').live('click',function(e){
+        getPost(jQuery(this).text())
+    }); 
+    jQuery('#search_date').live('click',function(e){
+        var date = jQuery('#date_pik').val();
+        if(date == ""){
+            alert("No date selected")
+        }
+        else{
+            getPost(date);
+        }
+    });
 }
 function savePost () {
     flash('Saving...');
@@ -72,6 +98,54 @@ function savePost () {
         },
         async:   true
     });
+}
+
+function getPost(date){
+
+    jQuery.ajax({
+            url: '/get_post',
+            type : 'GET',
+            data:{
+                date: date
+            },
+            success: function(data) {
+                jQuery('#entry_text').val(data.text);
+            },
+            failure: function(error){
+                flash(error);
+            },
+            error: function(error){
+                flash(error);
+            },
+        });
+}
+
+function listPost() {
+    var text = jQuery('#text_search').val();
+    if(text == ""){
+        alert("No text entered.");
+    }
+    else{
+        jQuery.ajax({
+            url: '/posts',
+            type : 'GET',
+            data:{
+                text: text
+            },
+            success: function(data) {
+                jQuery('#list').text("");
+                for(var i=0, len=data.text.length; i < len; i++){
+                    jQuery("<li class='post_links'>"+data.text[i]+"</li>").appendTo('#list')
+                }
+            },
+            failure: function(error){
+                flash(error);
+            },
+            error: function(error){
+                flash(error);
+            },
+        });
+    }
 }
 function triggerAutoSave () {
     setInterval(checkDirtyAndSave, DATA_SAVE_FREQUENCY);
