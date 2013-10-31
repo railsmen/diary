@@ -16,27 +16,72 @@
 var DATA_SAVE_FREQUENCY = 5000;
 var FLASH_HIDE_INTERVAL = 6000;
 var flash_hide_timer;
+var is_full_screen = true;
+
 jQuery('document').ready(function(){
     associateLinks();
     triggerAutoSave();
     loginCheck();
-    jQuery(".datepicker").datepicker({
-        dateFormat: 'yy-mm-dd'
-    });
+    createCalendar();
+    enableOrDisableEditorEntry();
 });
 
 function associateLinks () {
     associateSaveLink();
     associateSignLinks();
-    // associateOldEntriesLink();
+    associateOldEntriesLink();
+    associateMedian();
+    associatePostLinks();
+}
+
+function createCalendar (argument) {
+    jQuery("#inline_datepicker").datepicker({
+        dateFormat: 'yy-mm-dd',
+        onSelect: function(selectedDate, inst) { 
+            getPost(selectedDate);
+       }
+    });
 }
 
 function associateSaveLink(){
-	jQuery('#save_li').live('click',function(e){
-		e.preventDefault();
-	    	savePost();
-	});
+    jQuery('#save_li').live('click',function(e){
+    	e.preventDefault();
+        	savePost();
+    });
 }
+
+function associateMedian(){
+    jQuery('.median').live('click',function(e){
+        e.preventDefault();
+        toggle_full_screen();
+    });
+}
+
+function full_screen () {
+    jQuery('.part2').animate({width:'99%'}, 500);
+    jQuery('.part1').animate({width:'0%'}, 500);
+    jQuery('.part1').hide();
+    jQuery('.median').css({'background-position': 'center right'});
+    is_full_screen = true;
+}
+
+function split_screen () {
+    jQuery('.part2').animate({width:'79%'}, 500);
+    jQuery('.part1').animate({width:'20%'}, 500);
+    jQuery('.part1').show();
+    jQuery('.median').css({'background-position': 'center left'});
+    is_full_screen = false;
+}
+
+function toggle_full_screen () {
+    if (is_full_screen) {
+        split_screen();
+    } else{
+        full_screen();
+    };
+}
+
+
 function associateSignLinks(){
     jQuery('.sign_in').live('click',function(e){
         e.preventDefault();
@@ -56,28 +101,20 @@ function associateSignLinks(){
         jQuery('.sign_ups').show();
         jQuery('.sign_ins').hide();
     });
+}
+
+function associateOldEntriesLink() {
     jQuery('#old_entries_li').live('click',function(e){
-        jQuery('.part2').animate({width:'80%'}, 500);
-        jQuery('.part1').animate({width:'20%'}, 500);
+        toggle_full_screen();
     });
-    jQuery('#hide').live('click',function(e){
-        jQuery('#date_pik').val("");
-        jQuery('.part2').animate({width:'100%'}, 500);
-        jQuery('.part1').animate({width:'0%'}, 500);
-    });
+}
+
+function associatePostLinks() {
       jQuery('.post_links').live('click',function(e){
         getPost(jQuery(this).text())
     }); 
-    jQuery('#search_date').live('click',function(e){
-        var date = jQuery('#date_pik').val();
-        if(date == ""){
-            alert("No date selected")
-        }
-        else{
-            getPost(date);
-        }
-    });
 }
+
 function savePost () {
     flash('Saving...');
     jQuery.ajax({
@@ -101,7 +138,6 @@ function savePost () {
 }
 
 function getPost(date){
-
     jQuery.ajax({
             url: '/get_post',
             type : 'GET',
@@ -109,7 +145,10 @@ function getPost(date){
                 date: date
             },
             success: function(data) {
-                jQuery('#entry_text').val(data.text);
+                jQuery('#entry_text').val(data.entry_text);
+                jQuery('#entry_date').val(data.entry_date);
+                enableOrDisableEditorEntry();
+                flash('Data loaded for ' + data.entry_date);
             },
             failure: function(error){
                 flash(error);
@@ -147,14 +186,38 @@ function listPost() {
         });
     }
 }
+
 function triggerAutoSave () {
     setInterval(checkDirtyAndSave, DATA_SAVE_FREQUENCY);
 }
 
 function checkDirtyAndSave() {
-    if (jQuery('#entry_text').attr('saved_data') != jQuery('#entry_text').val()) {
+    if (isEntryTextChanged() && isTodayEntry()) {
         savePost();
     }
+}
+function enableOrDisableEditorEntry (argument) {
+    if(isTodayEntry()){
+        enableEditor();
+    }
+    else{
+        disableEditor();
+    }
+}
+
+function disableEditor (argument) {
+    jQuery('#entry_text').attr('readonly',  "readonly");
+}
+
+function enableEditor (argument) {
+    jQuery('#entry_text').removeAttr('readonly');
+}
+
+function isEntryTextChanged () {
+    return jQuery('#entry_text').attr('saved_data') != jQuery('#entry_text').val() 
+}
+function isTodayEntry(){
+    return jQuery('#entry_date').val() == jQuery.datepicker.formatDate('yy-mm-dd', new Date())
 }
 
 function flash (flash_str) {

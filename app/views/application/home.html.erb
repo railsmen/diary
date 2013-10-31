@@ -1,16 +1,16 @@
 <div class = "part1">
-	<li id = "hide" class="layout_footer_links"	><---Hide</li>
-
-</br></br>
-	<p>Date: <input type="text" id="jQuery(this).text()" class="datepicker" size = "5"/>
-	<input type="button" id="search_date" value="search" ></input>
-	</p>
+	<div id="inline_datepicker"></div>
+	</br><hr></br>
 	<p>Text: <input type="text" id="text_search" size = "7"/>
 	<input type="button" id="search_text" value="search" onclick="listPost()" ></input>
 	</p></br><hr></br>
-	<div ><%= render :partial => "shared/list_post"%></div>
+	<!-- div ><%= render :partial => "shared/list_post", :locals => { :posts => [] } %></div -->
+	<span>Recent Posts</span>
+	<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts } %></div>
 </div>
+<div class = "median"></div>
 <div class="part2">
- <textarea id = "entry_text" class = "entry_text" saved_data = "<%= @post.entry_text if @post %>"><%= @post.entry_text if @post %></textarea>
-<input type="hidden" id="logged_in_user_id" value="<%= @user.id if @user %>"/>
+	 <textarea id = "entry_text" class = "entry_text" saved_data = "<%= @post.entry_text if @post %>"><%= @post.entry_text if @post %></textarea>
+	<input type="hidden" id="logged_in_user_id" value="<%= @user.id if @user %>"/>
+	<input type="hidden" id="entry_date" value="<%= @post.entry_date if @post %>"/>
 </div>

@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate, :load_today_post
   helper_method :current_user
   def home
-    #puts "hai"
+    @recent_posts = @user.posts.recent_posts if @user
   end
 
   def list_posts
@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_post
-    render :json => {:text => @user.posts.where("entry_date = ?",params[:date]).first.entry_text }, :status => 200
+    @post = @user.posts.where("entry_date = ?",params[:date]).first || @user.posts.new(:entry_date => params[:date])
+    render :json => {:entry_text => @post.entry_text, :entry_date => @post.entry_date }, :status => 200
   end  
     
   def save_post

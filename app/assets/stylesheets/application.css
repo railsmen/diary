@@ -34,9 +34,20 @@ body{
        width: 0%;
        height: 100%;
        float: left;
+       display: none;
+}
+.median{
+	width: 1%;
+	height: 100%;
+	float: left;
+	background-color: grey;
+	background-image: url('arrows.png');
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
 }
 .part2{
-       width: 100%;
+       width: 99%;
        height:100%;
        float: left;
 }
@@ -268,3 +279,8 @@ li.layout_footer_links:hover{
 }
 
 /*Gateway CSS ends here*/
+.recent_posts{
+	height : 300px;
+	max-height: 300px;
+	overflow: auto;
+}
