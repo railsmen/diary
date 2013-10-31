@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate, :load_today_post
   helper_method :current_user
   def home
+    #puts "hai"
   end
 
   def list_posts
