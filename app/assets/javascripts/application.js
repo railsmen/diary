@@ -32,6 +32,7 @@ function associateLinks () {
     associateOldEntriesLink();
     associateMedian();
     associatePostLinks();
+    associateTextSearch();
 }
 
 function createCalendar (argument) {
@@ -47,6 +48,12 @@ function associateSaveLink(){
     jQuery('#save_li').live('click',function(e){
     	e.preventDefault();
         	savePost();
+    });
+}
+function associateTextSearch(){
+    jQuery('#text_search').live('keyup',function(e){
+        e.preventDefault();
+            listPost();
     });
 }
 
@@ -111,7 +118,7 @@ function associateOldEntriesLink() {
 
 function associatePostLinks() {
       jQuery('.post_links').live('click',function(e){
-        getPost(jQuery(this).text())
+        getPost(jQuery(this).attr('data_date'));
     }); 
 }
 
@@ -138,6 +145,7 @@ function savePost () {
 }
 
 function getPost(date){
+    console.log(date);
     jQuery.ajax({
             url: '/get_post',
             type : 'GET',

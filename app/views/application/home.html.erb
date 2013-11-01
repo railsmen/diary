@@ -1,11 +1,10 @@
 <div class = "part1">
 	<div id="inline_datepicker"></div>
-	</br><hr></br>
-	<p>Text: <input type="text" id="text_search" size = "7"/>
-	<input type="button" id="search_text" value="search" onclick="listPost()" ></input>
-	</p></br><hr></br>
+	<hr>
+	<input type="search" id="text_search"/>
+	<hr>
 	<!-- div ><%= render :partial => "shared/list_post", :locals => { :posts => [] } %></div -->
-	<span>Recent Posts</span>
+	<h4>Recent Posts</h4>
 	<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts } %></div>
 </div>
 <div class = "median"></div>

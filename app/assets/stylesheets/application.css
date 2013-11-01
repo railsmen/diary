@@ -283,4 +283,16 @@ li.layout_footer_links:hover{
 	height : 300px;
 	max-height: 300px;
 	overflow: auto;
+	border: 1px solid black;
+}
+
+.post_links{
+	cursor:pointer;
+}
+.post_links:hover{
+	font-weight: bold;
+	font-style: italic;
+}
+#text_search{
+	width:100%;
 }
