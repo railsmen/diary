@@ -285,7 +285,12 @@ li.layout_footer_links:hover{
 	overflow: auto;
 	border: 1px solid black;
 }
-
+.matched_posts{
+	height : auto;
+	max-height: 300px;
+	overflow: auto;
+	border: 1px solid black;
+}
 .post_links{
 	cursor:pointer;
 }
@@ -295,4 +300,18 @@ li.layout_footer_links:hover{
 }
 #text_search{
 	width:100%;
+}
+.wiget{
+	margin : 5px;
+}
+
+.hasDatepicker {
+    margin-left: 10px;
+}
+
+#recent_posts_wiget{
+	background-color: #ccc; 
+}
+#search_wiget{
+	background-color: #aaa; 
 }

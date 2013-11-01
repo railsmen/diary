@@ -170,20 +170,17 @@ function getPost(date){
 function listPost() {
     var text = jQuery('#text_search').val();
     if(text == ""){
-        alert("No text entered.");
+        jQuery('.matched_posts').html("");
     }
     else{
         jQuery.ajax({
             url: '/posts',
             type : 'GET',
             data:{
-                text: text
+                search_text: text
             },
             success: function(data) {
-                jQuery('#list').text("");
-                for(var i=0, len=data.text.length; i < len; i++){
-                    jQuery("<li class='post_links'>"+data.text[i]+"</li>").appendTo('#list')
-                }
+                jQuery('.matched_posts').html(data);
             },
             failure: function(error){
                 flash(error);

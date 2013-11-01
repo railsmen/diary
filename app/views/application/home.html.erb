@@ -1,11 +1,16 @@
 <div class = "part1">
 	<div id="inline_datepicker"></div>
-	<hr>
-	<input type="search" id="text_search"/>
-	<hr>
-	<!-- div ><%= render :partial => "shared/list_post", :locals => { :posts => [] } %></div -->
-	<h4>Recent Posts</h4>
-	<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts } %></div>
+	<br/>
+	<hr/>
+	<div class = "wiget" id = "search_wiget">
+		<h4>Search Posts</h4>
+		<input type="search" id="text_search" placeholder = "Enter text to search..."/>
+		<div class="matched_posts" ><%= render :partial => "shared/list_post", :locals => { :posts => [] } %></div>
+	</div>
+	<div class = "wiget" id = "recent_posts_wiget">
+		<h4>Recent Posts</h4>
+		<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts } %></div>
+	</div>
 </div>
 <div class = "median"></div>
 <div class="part2">

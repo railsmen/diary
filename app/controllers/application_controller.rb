@@ -7,9 +7,11 @@ class ApplicationController < ActionController::Base
   end
 
   def list_posts
-    text = params[:text]
-    posts  = @user.posts.collect{|qwe| qwe.entry_date if qwe.entry_text.downcase.include?(text)}
-    render :json => {:text => posts.compact}, :status => 200
+    search_text = params[:search_text]
+    @matched_posts = @user.posts.where("LOWER(entry_text) like '%#{search_text.downcase}%'")
+    # posts  = @user.posts.collect{|qwe| qwe.entry_date if qwe.entry_text.downcase.include?(text)}
+    # render :json => {:text => posts.compact}, :status => 200
+    render :partial => "shared/list_post", :locals => { :posts => @matched_posts}
   end
 
   def get_post

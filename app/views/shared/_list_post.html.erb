@@ -1,5 +1,7 @@
-<div id = "list" class = "post_list">
-	<% posts.each do |post|   %>
-		<li class = "post_links" data_date = "<%= post.entry_date %>" ><%= post.entry_date %>   <br/> <%= post.entry_text %> <hr/></li>
-	<% end %>
-</div>
+<% if posts.any? %>
+	<div id = "list" class = "post_list">
+		<% posts.each do |post|   %>
+			<li class = "post_links" data_date = "<%= post.entry_date %>" ><%= post.entry_date %>   <br/> <%= post.entry_text %> <hr/></li>
+		<% end %>
+	</div>
+<% end %>
