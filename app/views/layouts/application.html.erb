@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<!-- Need to have FLASH with devise -->
 <span id = "flash_tag" class = "flash"></span>
 <div id="gateway_div" class="gateway_div">
 	<%= render :partial => "shared/gateway.html.erb" %>
@@ -15,7 +15,9 @@
 <div id="shutter" class="shutter"></div>
 <div class="layout_header">
 	Diary
-	<span class = "welcome_span"><%= welcome_message %></span>
+	<span class = "welcome_span">
+		<%= render :partial => "shared/welcome.html.erb" %>
+	</span>
 </div>
 <%= yield %>
 <div class="layout_footer">

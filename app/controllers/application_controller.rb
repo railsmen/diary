@@ -1,9 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate, :load_today_post
+  before_filter :authenticate_user!, :authenticate, :load_today_post
+  after_filter :set_flash_values
   helper_method :current_user
   def home
     @recent_posts = @user.posts.recent_posts if @user
+    @flash_notice = "nothing"
+    puts "~~~~~~2~~~~~~~~~~~~~~~~~~`#{@flash_notice}"
   end
 
   def list_posts
@@ -32,14 +35,14 @@ class ApplicationController < ActionController::Base
   	end
   end
 
-  def current_user
-    User.find(session[:user_id]) if session[:user_id].present?
+  def set_flash_values
+    @flash_error = flash[:error]
+    @flash_notice = flash[:notice]
+    puts "~~~~~~~~1~~~~~~~~~~~~~~~~`#{@flash_notice}"
   end
-
   private
   def authenticate
-  	@user = session[:user_id] = User.first
-    #@user = session[:user_id] = nil
+  	@user = user_signed_in? ? current_user : nil
   end
 
   def load_today_post

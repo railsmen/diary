@@ -40,10 +40,10 @@ body{
 	width: 1%;
 	height: 100%;
 	float: left;
-	background-color: grey;
-	background-image: url('arrows.png');
-	background-repeat: no-repeat;
-	background-position: center right;
+	background-image: url('leather.png');;
+	/*background-image: url('arrows.png');*/
+	/*background-repeat: no-repeat;*/
+	/*background-position: center right;*/
 	cursor: pointer;
 }
 .part2{
@@ -54,14 +54,14 @@ body{
 
 .layout_header{
 	width:100%;
-	background-color: grey;
+	background-image: url('leather.png');;
 	height: 25px;
 	position: fixed;
 	z-index: 101;
 }
 .layout_footer{
 	width:100%;
-	background-color: grey;
+	background-image: url('leather.png');;
 	height: 25px;
 	position: fixed;
 	bottom: 0px;

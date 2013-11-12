@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby="	ruby-1.9.3-p392"
 
 gem 'rails', '3.2.12'
 
@@ -7,7 +8,8 @@ gem 'rails', '3.2.12'
 
 gem 'mysql2'
 
-
+gem 'better_errors'
+gem 'devise'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

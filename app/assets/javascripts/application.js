@@ -24,6 +24,7 @@ jQuery('document').ready(function(){
     loginCheck();
     createCalendar();
     enableOrDisableEditorEntry();
+    checkAndShowFlash();
 });
 
 function associateLinks () {
@@ -33,6 +34,15 @@ function associateLinks () {
     associateMedian();
     associatePostLinks();
     associateTextSearch();
+}
+
+function checkAndShowFlash () {
+    if (jQuery('#flash_error').val() !== "") {
+        flash(jQuery('#flash_error').val());
+    }
+    if (jQuery('#flash_notice').val() !== "") {
+        flash(jQuery('#flash_notice').val());
+    }
 }
 
 function createCalendar (argument) {

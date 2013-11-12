@@ -9,7 +9,7 @@
 	</div>
 	<div class = "wiget" id = "recent_posts_wiget">
 		<h4>Recent Posts</h4>
-		<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts } %></div>
+		<div class="recent_posts"><%= render :partial => "shared/list_post", :locals => { :posts => @recent_posts || [] } %></div>
 	</div>
 </div>
 <div class = "median"></div>
@@ -17,4 +17,8 @@
 	 <textarea id = "entry_text" class = "entry_text" saved_data = "<%= @post.entry_text if @post %>"><%= @post.entry_text if @post %></textarea>
 	<input type="hidden" id="logged_in_user_id" value="<%= @user.id if @user %>"/>
 	<input type="hidden" id="entry_date" value="<%= @post.entry_date if @post %>"/>
+	<input type="hidden" id="flash_error" value="<%= flash[:error] %>"/>
+	<input type="hidden" id="flash_notice" value="<%= flash[:notice] %>"/>
+
+	set_flash_values
 </div>
